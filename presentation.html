@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BriskChain Seminar Presentation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f3ef;
+            color: #2d3436;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            padding: 45px 70px 70px 70px;
+            background: linear-gradient(145deg, #fefefe 0%, #f8f6f2 50%, #f5f3ef 100%);
+            position: relative;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header stripe */
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #1e3a5f 0%, #2d5a87 50%, #3d7ab5 100%);
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 25px;
+            right: 50px;
+            font-size: 13px;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .slide-footer {
+            position: absolute;
+            bottom: 25px;
+            left: 50px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.4em;
+            color: #1e3a5f;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.2em;
+            color: #1e3a5f;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #1e3a5f;
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 1.25em;
+            color: #1e3a5f;
+            margin: 20px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p, li {
+            font-size: 1.1em;
+            line-height: 1.75;
+            color: #444;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+        }
+
+        li {
+            margin: 6px 0;
+        }
+
+        strong {
+            color: #1e3a5f;
+            font-weight: 600;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f6f2 100%);
+        }
+
+        .title-slide h1 {
+            font-size: 2.2em;
+            max-width: 900px;
+            margin-bottom: 20px;
+        }
+
+        .title-slide .paper-info {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 35px;
+            font-style: italic;
+        }
+
+        .title-slide .divider {
+            width: 120px;
+            height: 3px;
+            background: #1e3a5f;
+            margin: 25px auto;
+        }
+
+        .author-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px 40px;
+            text-align: left;
+            background: #fff;
+            padding: 25px 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+            margin-top: 10px;
+        }
+
+        .author-details .detail {
+            display: flex;
+            gap: 10px;
+        }
+
+        .author-details .label {
+            color: #888;
+            font-size: 0.9em;
+            min-width: 100px;
+        }
+
+        .author-details .value {
+            color: #333;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        /* Content Layouts */
+        .content-slide {
+            justify-content: flex-start;
+        }
+
+        .two-column {
+            display: flex;
+            gap: 45px;
+            flex: 1;
+            margin-top: 15px;
+            align-items: flex-start;
+        }
+
+        .column {
+            flex: 1;
+        }
+
+        .column-60 { flex: 1.5; }
+        .column-40 { flex: 1; }
+
+        /* Figure Containers */
+        .figure-container {
+            text-align: center;
+            margin: 15px 0;
+            background: #fff;
+            padding: 18px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .figure-container img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 6px;
+        }
+
+        .figure-container.large img { max-height: 480px; }
+        .figure-container.medium img { max-height: 340px; }
+        .figure-container.small img { max-height: 270px; }
+        .figure-container.xsmall img { max-height: 220px; }
+
+        .figure-caption {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 1em;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        th, td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #1e3a5f;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        tr.highlight {
+            background: #e8f4fd;
+        }
+
+        /* Boxes */
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 12px 0;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            font-size: 1.2em;
+        }
+
+        .highlight-box {
+            background: #e8f4fd;
+            border-left: 5px solid #1e3a5f;
+            padding: 18px 24px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .problem-box {
+            background: #fef3f3;
+            border-left: 5px solid #c0392b;
+            padding: 18px 24px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .solution-box {
+            background: #f0faf0;
+            border-left: 5px solid #27ae60;
+            padding: 18px 24px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .code-block {
+            background: #2d3436;
+            color: #dfe6e9;
+            padding: 15px 20px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 1em;
+            margin: 10px 0;
+            white-space: pre;
+        }
+
+        /* Stats */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .stat-grid.four-col {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 2px solid #1e3a5f;
+            border-radius: 12px;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 2.4em;
+            font-weight: 700;
+            color: #1e3a5f;
+        }
+
+        .stat-card .label {
+            font-size: 0.95em;
+            color: #555;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #c0392b, #e74c3c);
+            transition: width 0.3s;
+            z-index: 1000;
+        }
+
+        /* Abstract Grid */
+        .abstract-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 20px;
+            flex: 1;
+        }
+
+        .abstract-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+            border-top: 5px solid #1e3a5f;
+        }
+
+        .abstract-card.problem { border-top-color: #c0392b; }
+        .abstract-card.solution { border-top-color: #27ae60; }
+        .abstract-card.future { border-top-color: #8e44ad; }
+
+        .abstract-card h3 {
+            margin-top: 0;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .abstract-card ul {
+            margin-left: 20px;
+            margin-top: 12px;
+        }
+
+        .abstract-card li {
+            font-size: 1.05em;
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .key-point {
+            color: #c0392b;
+            font-weight: 600;
+        }
+
+        /* VS Comparison */
+        .vs-container {
+            display: flex;
+            align-items: stretch;
+            gap: 20px;
+            margin: 15px 0;
+        }
+
+        .vs-box {
+            flex: 1;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .vs-box.problem {
+            background: #fef3f3;
+            border: 2px solid #c0392b;
+        }
+
+        .vs-box.solution {
+            background: #f0faf0;
+            border: 2px solid #27ae60;
+        }
+
+        .vs-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1em;
+        }
+
+        .vs-box.problem h4 { color: #c0392b; }
+        .vs-box.solution h4 { color: #27ae60; }
+
+        .vs-arrow {
+            display: flex;
+            align-items: center;
+            font-size: 2em;
+            color: #1e3a5f;
+        }
+
+        /* Content Overview */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+            align-items: stretch;
+        }
+
+        .overview-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .overview-section h3 {
+            font-size: 1.15em;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #1e3a5f;
+        }
+
+        .overview-section ol {
+            margin-left: 20px;
+            flex: 1;
+        }
+
+        .overview-section li {
+            font-size: 1.05em;
+            margin: 8px 0;
+            line-height: 1.8;
+        }
+
+        /* Scrollable */
+        .scrollable {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        /* Reference list */
+        .reference-list {
+            font-size: 0.9em;
+        }
+
+        .reference-list li {
+            margin: 10px 0;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Thank you slide */
+        .thank-you {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .thank-you h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .thank-you p {
+            font-size: 1.3em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progress"></div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide title-slide active">
+        <h1>BriskChain: Decentralized Function Composition for High-Performance Serverless Computing</h1>
+        <p class="paper-info">IEEE Access, Volume 12, 2024 | DOI: 10.1109/ACCESS.2024.3439695</p>
+        <div class="divider"></div>
+        <div class="author-details">
+            <div class="detail">
+                <span class="label">Presented by:</span>
+                <span class="value">Adithyan B Raj</span>
+            </div>
+            <div class="detail">
+                <span class="label">Roll Number:</span>
+                <span class="value">11</span>
+            </div>
+            <div class="detail">
+                <span class="label">Department:</span>
+                <span class="value">Computer Science</span>
+            </div>
+            <div class="detail">
+                <span class="label">Semester:</span>
+                <span class="value">S7</span>
+            </div>
+            <div class="detail">
+                <span class="label">Institution:</span>
+                <span class="value">College of Engineering, Perumon</span>
+            </div>
+            <div class="detail">
+                <span class="label">Guide:</span>
+                <span class="value">Anison Abraham</span>
+            </div>
+        </div>
+        <p style="margin-top: 30px; color: #888; font-size: 0.85em;">
+            Original Authors: K. Wang, J. Ma, E. M.-K. Lai | Auckland University of Technology, New Zealand
+        </p>
+        <div class="slide-number">1 / 18</div>
+    </div>
+
+    <!-- Slide 2: Content Overview -->
+    <div class="slide content-slide">
+        <h2 style="font-size: 2.4em;">Content Overview</h2>
+        <div class="overview-grid" style="margin-top: 40px; gap: 30px; flex: 1;">
+            <div class="overview-section" style="padding: 30px;">
+                <h3 style="font-size: 1.3em; margin-bottom: 20px;">1. Background</h3>
+                <ol style="font-size: 1.15em; line-height: 2.2;">
+                    <li>Abstract</li>
+                    <li>Problem Statement</li>
+                    <li>Objectives</li>
+                </ol>
+            </div>
+            <div class="overview-section" style="padding: 30px;">
+                <h3 style="font-size: 1.3em; margin-bottom: 20px;">2. Foundation</h3>
+                <ol start="4" style="font-size: 1.15em; line-height: 2.2;">
+                    <li>Introduction</li>
+                    <li>Literature Review</li>
+                </ol>
+            </div>
+            <div class="overview-section" style="padding: 30px;">
+                <h3 style="font-size: 1.3em; margin-bottom: 20px;">3. Proposed Work</h3>
+                <ol start="6" style="font-size: 1.15em; line-height: 2.2;">
+                    <li>Methodology</li>
+                    <li>Architecture</li>
+                    <li>Experimental Setup</li>
+                </ol>
+            </div>
+            <div class="overview-section" style="padding: 30px;">
+                <h3 style="font-size: 1.3em; margin-bottom: 20px;">4. Findings</h3>
+                <ol start="9" style="font-size: 1.15em; line-height: 2.2;">
+                    <li>Results & Discussion</li>
+                    <li>Conclusion</li>
+                    <li>References</li>
+                </ol>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top: 40px; padding: 25px 30px;">
+            <p style="margin: 0; font-size: 1.3em;"><strong>Core Idea:</strong> BriskChain enables serverless functions to communicate directly with each other, bypassing the central controller, resulting in significantly reduced workflow overhead.</p>
+        </div>
+        <div class="slide-number">2 / 18</div>
+    </div>
+
+    <!-- Slide 3: Abstract -->
+    <div class="slide content-slide">
+        <h2>Abstract</h2>
+        <div class="abstract-grid">
+            <div class="abstract-card">
+                <h3>Background Study</h3>
+                <ul>
+                    <li>Serverless computing (FaaS) allows building applications using small, independent functions</li>
+                    <li>Complex tasks require combining multiple functions into <strong>workflows</strong></li>
+                    <li>Workflow engines manage function scheduling and coordination</li>
+                </ul>
+            </div>
+            <div class="abstract-card problem">
+                <h3>Specific Problem</h3>
+                <ul>
+                    <li>Current engines use <span class="key-point">master-side pattern</span></li>
+                    <li>No direct interaction between consecutive functions</li>
+                    <li>High scheduling & communication overhead</li>
+                    <li>Inefficient for fine-grained workflows</li>
+                </ul>
+            </div>
+            <div class="abstract-card solution">
+                <h3>Performance Results</h3>
+                <ul>
+                    <li><span class="key-point">>70%</span> lower overhead vs OpenWhisk</li>
+                    <li><span class="key-point">50-75%</span> less overhead vs Apache Composer</li>
+                    <li>Locality strategy optimizes execution</li>
+                    <li>Tested on synthetic & real applications</li>
+                </ul>
+            </div>
+            <div class="abstract-card future">
+                <h3>Future Opportunities</h3>
+                <ul>
+                    <li>Decentralized auto-scaling mechanisms</li>
+                    <li>Self-managing container lifecycles</li>
+                    <li>Broader cloud computing applications</li>
+                </ul>
+            </div>
+        </div>
+        <div class="slide-number">3 / 18</div>
+    </div>
+
+    <!-- Slide 4: Problem Statement -->
+    <div class="slide content-slide">
+        <h2>Problem Statement</h2>
+        <div class="two-column">
+            <div class="column">
+                <div class="problem-box">
+                    <h3 style="color: #c0392b; margin-top: 0;">The Master-Side Pattern Problem</h3>
+                    <p>Every function must communicate through the central controller:</p>
+                    <div class="code-block">F1 → Controller → F2 → Controller → F3 → Controller → F4</div>
+                </div>
+                <h3>Key Issues:</h3>
+                <ul>
+                    <li><strong>High Scheduling Overhead</strong> — Central controller manages every function</li>
+                    <li><strong>Communication Bottleneck</strong> — Data routed through controller/database</li>
+                    <li><strong>Data Size Limits</strong> — Cloud vendors impose quotas on I/O data size; transfers >1MB cause bottlenecks</li>
+                    <li><strong>Complexity</strong> — O(N×K) for FaaS vs O(N) for VMs (N=hosts, K=functions/host)</li>
+                </ul>
+                <div class="highlight-box" style="margin-top: 15px;">
+                    <strong>Research Question:</strong> How can consecutive serverless functions communicate directly without routing through a centralized controller?
+                </div>
+            </div>
+            <div class="column">
+                <div class="figure-container">
+                    <img src="screenshots/fig1.png" alt="VM vs FaaS Communication">
+                    <p class="figure-caption">Figure 1: Communication complexity — VM-based vs FaaS-based systems</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">4 / 18</div>
+    </div>
+
+    <!-- Slide 5: Objectives -->
+    <div class="slide content-slide">
+        <h2>Objectives</h2>
+        <div class="card" style="margin-bottom: 20px;">
+            <h3 style="margin-top: 0; font-size: 1.2em;">Primary Objective</h3>
+            <p style="font-size: 1.1em;">To design and implement a <strong>decentralized worker-side architecture</strong> that reduces communication and scheduling overhead in serverless workflows.</p>
+        </div>
+        <div class="two-column">
+            <div class="column">
+                <h3>Design Objectives</h3>
+                <ul>
+                    <li>Propose a <strong>worker-side pattern</strong> where functions manage workflow progression</li>
+                    <li>Enable <strong>direct data transfer</strong> between consecutive functions</li>
+                    <li>Implement <strong>locality strategy</strong> to place workflow functions on the same host</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3>Implementation & Evaluation</h3>
+                <ul>
+                    <li>Build <strong>BriskChain</strong> as an extension to OpenWhisk platform</li>
+                    <li>Compare performance against OpenWhisk and Apache Composer</li>
+                    <li>Validate using <strong>synthetic</strong> and <strong>real-world</strong> workflow benchmarks</li>
+                </ul>
+            </div>
+        </div>
+        <div class="vs-container" style="margin-top: 20px;">
+            <div class="vs-box problem">
+                <h4>Traditional Approach</h4>
+                <div class="code-block" style="background: #c0392b; font-size: 0.9em;">F1 → Master → F2 → Master → F3</div>
+            </div>
+            <div class="vs-arrow">→</div>
+            <div class="vs-box solution">
+                <h4>BriskChain Approach</h4>
+                <div class="code-block" style="background: #27ae60; font-size: 0.9em;">F1 → F2 → F3 (Direct)</div>
+            </div>
+        </div>
+        <div class="slide-number">5 / 18</div>
+    </div>
+
+    <!-- Slide 6: Introduction -->
+    <div class="slide content-slide">
+        <h2>Introduction — Serverless Computing</h2>
+        <div class="two-column">
+            <div class="column-60">
+                <h3>What is Serverless Computing?</h3>
+                <ul>
+                    <li>Cloud computing model where developers deploy <strong>functions</strong> without managing servers</li>
+                    <li>Also known as <strong>Function as a Service (FaaS)</strong></li>
+                    <li>Cloud platform handles provisioning, scaling, and infrastructure</li>
+                </ul>
+                <h3>Function Characteristics</h3>
+                <ul>
+                    <li><strong>Stateless</strong> — No persistent state between invocations</li>
+                    <li><strong>Fine-grained</strong> — Small, focused units of computation</li>
+                    <li><strong>Self-contained</strong> — Includes all dependencies</li>
+                    <li><strong>Event-driven</strong> — Triggered by events or requests</li>
+                </ul>
+                <h3>Serverless Platforms</h3>
+                <table style="font-size: 0.9em;">
+                    <tr>
+                        <th>Commercial</th>
+                        <th>Open Source</th>
+                    </tr>
+                    <tr>
+                        <td>AWS Lambda, Google Cloud Functions, Azure Functions, IBM Cloud Functions</td>
+                        <td>OpenWhisk, OpenFaaS, Knative</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="column-40">
+                <div class="figure-container">
+                    <img src="screenshots/fig3.png" alt="Sandbox Process">
+                    <p class="figure-caption">Figure 3: Sandbox lifecycle — Load, Inject, Ready</p>
+                </div>
+                <div class="highlight-box">
+                    <p style="margin: 0;"><strong>Sandbox:</strong> A containerized environment that isolates serverless function execution with required runtime and dependencies.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">6 / 18</div>
+    </div>
+
+    <!-- Slide 7: Literature Review -->
+    <div class="slide content-slide">
+        <h2>Literature Review</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 18%;">Work</th>
+                    <th style="width: 8%;">Year</th>
+                    <th style="width: 37%;">Main Contribution</th>
+                    <th style="width: 37%;">Limitation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>StepConf [5,6]</td>
+                    <td>2022</td>
+                    <td>Dynamic workflow configuration to meet SLOs; function prewarming</td>
+                    <td>Still relies on master-side architecture</td>
+                </tr>
+                <tr>
+                    <td>O-RDC [7]</td>
+                    <td>2022</td>
+                    <td>Retention-aware container caching across edge nodes</td>
+                    <td>Focuses only on cold-start latency reduction</td>
+                </tr>
+                <tr>
+                    <td>HarmonyBatch [8]</td>
+                    <td>2024</td>
+                    <td>Heterogeneous batching for DNN inference tasks</td>
+                    <td>Limited to deep learning workloads</td>
+                </tr>
+                <tr>
+                    <td>Nightcore [17]</td>
+                    <td>2021</td>
+                    <td>Orchestrates chained functions on same host via gateway</td>
+                    <td>Gateway still acts as a local master</td>
+                </tr>
+                <tr>
+                    <td>FaaSFlow [2]</td>
+                    <td>2022</td>
+                    <td>Worker-side workflow execution with decentralized gateways</td>
+                    <td>Still uses gateway proxies for coordination</td>
+                </tr>
+                <tr class="highlight">
+                    <td><strong>BriskChain</strong></td>
+                    <td><strong>2024</strong></td>
+                    <td><strong>Fully decentralized function composition with embedded runtime</strong></td>
+                    <td><strong>No intermediate masters or gateways required</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="figure-container xsmall" style="margin-top: 15px;">
+            <img src="screenshots/fig2.png" alt="FaaSFlow">
+            <p class="figure-caption">Figure 2: FaaSFlow architecture — still relies on gateway proxies</p>
+        </div>
+        <div class="slide-number">7 / 18</div>
+    </div>
+
+    <!-- Slide 8: Methodology - Overview -->
+    <div class="slide content-slide">
+        <h2>Methodology — BriskChain Overview</h2>
+        <div class="two-column">
+            <div class="column">
+                <h3>Core Innovation: Worker-Side Pattern</h3>
+                <p>Functions can directly pass control and data to the next function without routing through the central controller.</p>
+
+                <div class="vs-container" style="flex-direction: column; gap: 10px; margin: 20px 0;">
+                    <div class="vs-box problem" style="text-align: left;">
+                        <h4>Master-Side (Traditional)</h4>
+                        <p style="font-size: 0.9em; margin: 0;">Controller schedules each function and mediates all communication</p>
+                    </div>
+                    <div style="text-align: center; font-size: 1.5em; color: #27ae60;">↓ BriskChain ↓</div>
+                    <div class="vs-box solution" style="text-align: left;">
+                        <h4>Worker-Side (Proposed)</h4>
+                        <p style="font-size: 0.9em; margin: 0;">Functions autonomously forward results to subsequent functions</p>
+                    </div>
+                </div>
+
+                <h3>Two Key Components</h3>
+                <ul>
+                    <li><strong>BriskChain Runtime</strong> — Embedded in each sandbox; handles workflow execution logic</li>
+                    <li><strong>Embedded Controller</strong> — Manages workflow scheduling and locality optimization</li>
+                </ul>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <strong>Substitution Principle:</strong> Workflows are treated as single units — no distinction between invoking a workflow vs a single function from user's perspective.
+                </div>
+            </div>
+            <div class="column">
+                <div class="figure-container large">
+                    <img src="screenshots/fig4.png" alt="BriskChain Infrastructure">
+                    <p class="figure-caption">Figure 4: BriskChain Infrastructure</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">8 / 18</div>
+    </div>
+
+    <!-- Slide 9: Methodology - Architecture -->
+    <div class="slide content-slide">
+        <h2>Methodology — System Architecture</h2>
+        <div class="two-column">
+            <div class="column-60">
+                <div class="figure-container large">
+                    <img src="screenshots/fig5.png" alt="OpenWhisk with BriskChain">
+                    <p class="figure-caption">Figure 5: OpenWhisk extended with BriskChain (shaded components)</p>
+                </div>
+            </div>
+            <div class="column-40">
+                <h3>Architecture Components</h3>
+                <ul>
+                    <li><strong>OpenWhisk Controller</strong> — Core FaaS management</li>
+                    <li><strong>BriskChain Embedded Controller</strong> — Workflow-specific scheduling</li>
+                    <li><strong>BriskChain Runtime</strong> — Inside each sandbox</li>
+                    <li><strong>Kafka</strong> — Message queue</li>
+                    <li><strong>CouchDB</strong> — Persistent storage</li>
+                </ul>
+                <div class="highlight-box">
+                    <h3 style="margin-top: 0;">Locality Strategy</h3>
+                    <p style="margin: 0;">All sandboxes of the same workflow are placed on the <strong>same host</strong>, enabling local communication and eliminating network overhead.</p>
+                </div>
+                <div class="solution-box">
+                    <p style="margin: 0;"><strong>Key Benefit:</strong> Database access only needed on errors — normal workflow proceeds entirely through direct sandbox communication.</p>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <strong>Fan-In Handling:</strong> For scenarios where multiple nodes output to a single next node, BriskChain uses <strong>Redis</strong> to temporarily store data before transmission.
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">9 / 18</div>
+    </div>
+
+    <!-- Slide 10: Methodology - Processing -->
+    <div class="slide content-slide">
+        <h2>Methodology — Workflow Processing</h2>
+        <div class="two-column">
+            <div class="column-60">
+                <div class="figure-container">
+                    <img src="screenshots/fig6.png" alt="Sequence Diagram">
+                    <p class="figure-caption">Figure 6: BriskChain sequence diagram</p>
+                </div>
+            </div>
+            <div class="column-40">
+                <h3>Processing Steps</h3>
+                <ol>
+                    <li><strong>Request</strong> — User invokes workflow via NGINX gateway</li>
+                    <li><strong>Fetch</strong> — Controller retrieves workflow schema from CouchDB</li>
+                    <li><strong>Token</strong> — User receives activation ID</li>
+                    <li><strong>Locality</strong> — Controller places sandboxes on same host</li>
+                    <li><strong>Queue</strong> — Task dispatched via Kafka</li>
+                    <li><strong>Execute</strong> — Functions invoke each other directly (steps 7-9)</li>
+                    <li><strong>Return</strong> — Final result stored; user retrieves via token</li>
+                </ol>
+                <div class="solution-box">
+                    <p style="margin: 0;"><strong>Critical Insight:</strong> Steps 7, 8, 9 occur <strong>without any controller involvement</strong> — the BriskChain Runtime handles all transitions.</p>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px; font-size: 0.9em;">
+                    <strong>Algorithm Complexity:</strong> O(n+m) where n = sequential nodes, m = parallel nodes
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">10 / 18</div>
+    </div>
+
+    <!-- Slide 11: Experimental Setup -->
+    <div class="slide content-slide">
+        <h2>Experimental Setup</h2>
+        <div class="two-column">
+            <div class="column">
+                <div class="figure-container">
+                    <img src="screenshots/table1.png" alt="Setup">
+                    <p class="figure-caption">Table 1: Hardware and software configuration</p>
+                </div>
+                <h3>Comparison Systems</h3>
+                <ul>
+                    <li><strong>OpenWhisk</strong> — Sequential workflows only</li>
+                    <li><strong>Apache Composer</strong> — All workflow types</li>
+                    <li><strong>BriskChain</strong> — Proposed system</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3>Benchmark Types</h3>
+                <div class="figure-container small">
+                    <img src="screenshots/fig7.png" alt="Benchmarks">
+                    <p class="figure-caption">Figure 7: Synthetic workflow types</p>
+                </div>
+                <h3>Evaluation Metrics</h3>
+                <ul>
+                    <li><strong>Runtime Overhead</strong> — Scheduling time + state transition + delays between functions</li>
+                    <li><strong>95th Percentile (P95)</strong> — 95% of executions complete faster than this value (measures tail latency)</li>
+                </ul>
+                <div class="highlight-box" style="margin-top: 10px; font-size: 0.9em;">
+                    <strong>Note:</strong> Results exclude cold start delays. Sequential tests: 100 runs each. Parallel tests: 1000 runs.
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">11 / 18</div>
+    </div>
+
+    <!-- Slide 12: Real Application Benchmarks -->
+    <div class="slide content-slide">
+        <h2>Experimental Setup — Real Applications</h2>
+        <div class="two-column">
+            <div class="column">
+                <div class="card">
+                    <h3 style="margin-top: 0;">Travis2slack — CI/CD Notification</h3>
+                    <div class="figure-container xsmall">
+                        <img src="screenshots/fig8.png" alt="Pipeline">
+                    </div>
+                    <div class="figure-container small">
+                        <img src="screenshots/fig9.png" alt="Travis2slack">
+                        <p class="figure-caption">Figure 9: Travis2slack workflow (12 nodes)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="card">
+                    <h3 style="margin-top: 0;">Video Transcoding — Parallel Processing</h3>
+                    <div class="figure-container medium">
+                        <img src="screenshots/fig10.png" alt="Video Transcoding">
+                        <p class="figure-caption">Figure 10: Video transcoding workflow (Fan-out/Fan-in)</p>
+                    </div>
+                    <p style="font-size: 0.95em;"><strong>Process:</strong> Split → Parallel transcode → Merge</p>
+                    <p style="font-size: 0.85em; color: #666;"><strong>Test:</strong> 100-second MOV → MP4. Video split required due to OpenWhisk's 1-minute function time limit.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">12 / 18</div>
+    </div>
+
+    <!-- Slide 13: Results - Synthetic -->
+    <div class="slide content-slide">
+        <h2>Results — Synthetic Workflows</h2>
+        <div class="two-column">
+            <div class="column">
+                <div class="figure-container medium">
+                    <img src="screenshots/fig11.png" alt="Sequential">
+                    <p class="figure-caption">Figure 11: Sequential workflow overhead</p>
+                </div>
+                <div class="stat-card">
+                    <div class="number">>70%</div>
+                    <div class="label">Lower overhead than OpenWhisk</div>
+                </div>
+                <p style="font-size: 0.85em; color: #666; margin-top: 8px;">Overhead grows <strong>linearly</strong> with function count</p>
+            </div>
+            <div class="column">
+                <div class="figure-container medium">
+                    <img src="screenshots/fig12.png" alt="Branch">
+                    <p class="figure-caption">Figure 12: Branch workflow overhead</p>
+                </div>
+                <div class="stat-card">
+                    <div class="number">0.023s</div>
+                    <div class="label">Average overhead (~1/3 of Composer)</div>
+                </div>
+                <p style="font-size: 0.85em; color: #666; margin-top: 8px;">P95 latency: <strong>70% lower</strong> than Composer</p>
+            </div>
+        </div>
+        <div class="slide-number">13 / 18</div>
+    </div>
+
+    <!-- Slide 14: Results - Parallel & Payload -->
+    <div class="slide content-slide">
+        <h2>Results — Parallel Workflows & Payload Scaling</h2>
+        <div class="two-column">
+            <div class="column">
+                <div class="figure-container medium">
+                    <img src="screenshots/fig13.png" alt="Parallel">
+                    <p class="figure-caption">Figure 13: Parallel workflow execution time</p>
+                </div>
+                <div class="highlight-box">
+                    <p style="margin: 0;"><strong>30 parallel functions:</strong> BriskChain overhead is only <span class="key-point">1/5 of Composer</span></p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="figure-container medium">
+                    <img src="screenshots/fig14.png" alt="Payload">
+                    <p class="figure-caption">Figure 14: Overhead vs payload size</p>
+                </div>
+                <div class="highlight-box">
+                    <p style="margin: 0;"><strong>Scaling:</strong> OpenWhisk grows <span class="key-point">exponentially</span>; BriskChain grows <span class="key-point">polynomially</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="stat-grid four-col" style="margin-top: 15px;">
+            <div class="stat-card">
+                <div class="number">50-75%</div>
+                <div class="label">Less parallel overhead</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">3x</div>
+                <div class="label">Better at 1KB payload</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">Linear</div>
+                <div class="label">Overhead growth</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">Local</div>
+                <div class="label">Communication only</div>
+            </div>
+        </div>
+        <div class="slide-number">14 / 18</div>
+    </div>
+
+    <!-- Slide 15: Results - Real Applications -->
+    <div class="slide content-slide">
+        <h2>Results — Real Application Performance</h2>
+        <div class="two-column">
+            <div class="column">
+                <div class="figure-container small">
+                    <img src="screenshots/fig15.png" alt="Video Results">
+                    <p class="figure-caption">Figure 15: Video transcoding — performance vs segment duration</p>
+                </div>
+                <div class="figure-container small">
+                    <img src="screenshots/fig16.png" alt="Travis Results">
+                    <p class="figure-caption">Figure 16: Travis2slack — performance vs payload increase</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="figure-container medium">
+                    <img src="screenshots/fig17.png" alt="Overhead">
+                    <p class="figure-caption">Figure 17: Overhead comparison — BriskChain vs Composer</p>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="number">~35%</div>
+                        <div class="label">Better video transcoding</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">60%</div>
+                        <div class="label">Less video overhead</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">3.5s</div>
+                        <div class="label">Travis2slack overhead<br><small>(vs 11.3s Composer)</small></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">2x</div>
+                        <div class="label">Better payload resilience</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">15 / 18</div>
+    </div>
+
+    <!-- Slide 16: Conclusion -->
+    <div class="slide content-slide">
+        <h2>Conclusion</h2>
+        <div class="two-column">
+            <div class="column">
+                <h3>Key Contributions</h3>
+                <ul>
+                    <li>Proposed <strong>decentralized worker-side pattern</strong> for serverless workflows</li>
+                    <li>Functions <strong>directly transfer</strong> state and results to subsequent functions</li>
+                    <li><strong>Locality strategy</strong> places all workflow sandboxes on same host</li>
+                    <li>Implemented as <strong>BriskChain</strong> — extension to OpenWhisk</li>
+                </ul>
+                <h3>Why It Works</h3>
+                <div class="solution-box">
+                    <ul style="margin-left: 15px;">
+                        <li>No repeated controller communication</li>
+                        <li>No unnecessary database access</li>
+                        <li>Local communication via locality strategy</li>
+                        <li>Linear (not exponential) overhead scaling</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="column">
+                <h3>Performance Summary</h3>
+                <table>
+                    <tr><th>Workflow Type</th><th>Improvement</th></tr>
+                    <tr><td>Sequential</td><td>>70% vs OpenWhisk</td></tr>
+                    <tr><td>Branch</td><td>~67% vs Composer</td></tr>
+                    <tr><td>Parallel (30 fn)</td><td>80% vs Composer</td></tr>
+                    <tr><td>Video Transcoding</td><td>35-60% better</td></tr>
+                    <tr><td>Travis2slack</td><td>70% less overhead</td></tr>
+                </table>
+                <h3>Future Opportunities</h3>
+                <ul>
+                    <li><strong>Decentralized auto-scaling</strong> — Containers manage own lifecycle</li>
+                    <li>Extension to broader cloud computing scenarios</li>
+                    <li>Further efficiency optimizations</li>
+                </ul>
+            </div>
+        </div>
+        <div class="slide-number">16 / 18</div>
+    </div>
+
+    <!-- Slide 17: References -->
+    <div class="slide content-slide">
+        <h2>References</h2>
+        <div class="scrollable" style="flex: 1;">
+            <ol class="reference-list" style="font-size: 1.15em; line-height: 2.2;">
+                <li>K. Wang, J. Ma, and E. M.-K. Lai, "BriskChain: Decentralized Function Composition for High-Performance Serverless Computing," <em>IEEE Access</em>, vol. 12, pp. 131313-131322, 2024.</li>
+                <li>Z. Li, Y. Liu, et al., "FaaSFlow: Enable efficient workflow execution for function-as-a-service," <em>Proc. 27th ACM Int. Conf. ASPLOS</em>, pp. 782-796, 2022.</li>
+                <li>Z. Li, L. Guo, et al., "The serverless computing survey: A technical primer for design architecture," <em>ACM Computing Surveys</em>, vol. 54, no. 10s, pp. 1-34, 2022.</li>
+                <li>I. Baldini, P. Cheng, et al., "The serverless trilemma: Function composition for serverless computing," <em>Proc. ACM SIGPLAN Int. Symp.</em>, pp. 89-103, 2017.</li>
+                <li>Z. Wen, Y. Wang, and F. Liu, "StepConf: SLO-aware dynamic resource configuration for serverless function workflows," <em>IEEE INFOCOM</em>, pp. 1868-1877, 2022.</li>
+                <li>L. Pan, L. Wang, et al., "Retention-aware container caching for serverless edge computing," <em>IEEE INFOCOM</em>, pp. 1069-1078, 2022.</li>
+                <li>Z. Jia and E. Witchel, "Nightcore: Efficient and scalable serverless computing for latency-sensitive, interactive microservices," <em>ACM ASPLOS</em>, pp. 152-166, 2021.</li>
+                <li>J. Schleier-Smith, V. Sreekanti, et al., "What serverless computing is and should become: The next phase of cloud computing," <em>Commun. ACM</em>, vol. 64, no. 5, pp. 76-84, 2021.</li>
+                <li>E. Jonas, J. Schleier-Smith, et al., "Cloud programming simplified: A Berkeley view on serverless computing," arXiv:1902.03383, 2019.</li>
+            </ol>
+        </div>
+        <div class="slide-number">17 / 18</div>
+    </div>
+
+    <!-- Slide 18: Thank You -->
+    <div class="slide title-slide">
+        <h1 style="font-size: 3.5em; margin-bottom: 30px;">Thank You!</h1>
+        <div class="divider"></div>
+        <p style="font-size: 1.8em; color: #555; margin-top: 30px;">Questions & Discussion</p>
+        <div style="margin-top: 50px; color: #888; font-size: 1.1em;">
+            <p>BriskChain: Decentralized Function Composition for High-Performance Serverless Computing</p>
+            <p style="margin-top: 10px;">K. Wang, J. Ma, E. M.-K. Lai | IEEE Access, 2024</p>
+        </div>
+        <div class="slide-number">18 / 18</div>
+    </div>
+
+    
+    <!-- SPEAKER NOTES - Press 'N' to toggle -->
+    <div id="speaker-notes" style="display: none; position: fixed; bottom: 60px; left: 20px; right: 20px; background: rgba(0,0,0,0.95); color: #fff; padding: 20px; border-radius: 10px; max-height: 40vh; overflow-y: auto; font-size: 14px; z-index: 1000;">
+        <h3 style="color: #00d4ff; margin: 0 0 10px 0;">Speaker Notes - Slide <span id="note-slide-num">1</span></h3>
+        <div id="notes-content"></div>
+    </div>
+
+    <script>
+        const speakerNotes = {
+            1: `<b>TITLE SLIDE (30 sec)</b><br>
+                • Introduce yourself and the paper<br>
+                • Paper published in IEEE Access, August 2024<br>
+                • Authors from Auckland University of Technology, New Zealand`,
+
+            2: `<b>CONTENT OVERVIEW (30 sec)</b><br>
+                • Briefly mention 4 parts: Background, Foundation, Proposed Work, Findings<br>
+                • Core message: BriskChain allows functions to talk directly, bypassing central controller`,
+
+            3: `<b>ABSTRACT (1.5 min)</b><br>
+                • Background: Serverless = small functions combined into workflows<br>
+                • Problem: Master-side pattern = every function talks to controller = high overhead<br>
+                • Solution: Worker-side pattern with >70% improvement<br>
+                • Key stat: 50-75% less overhead than Apache Composer`,
+
+            4: `<b>PROBLEM STATEMENT (1.5 min)</b><br>
+                • EXPLAIN FIGURE 1: Left side (VM) has O(N) complexity, Right side (FaaS) has O(N×K)<br>
+                • N = number of hosts, K = functions per host<br>
+                • Data transfers >1MB between different hosts cause bottlenecks<br>
+                • Cloud vendors impose quotas on input/output data size`,
+
+            5: `<b>OBJECTIVES (1 min)</b><br>
+                • Main goal: Reduce overhead using decentralized architecture<br>
+                • Two key innovations: Worker-side pattern + Locality strategy<br>
+                • Show the difference: Traditional vs BriskChain approach`,
+
+            6: `<b>INTRODUCTION (1.5 min)</b><br>
+                • EXPLAIN FIGURE 3: Sandbox lifecycle - Load → Inject → Ready<br>
+                • Functions are stateless, fine-grained, self-contained<br>
+                • OpenWhisk is the base platform (open-source, used by IBM Cloud Functions)<br>
+                • Mention: AWS Lambda, Google Cloud Functions as commercial examples`,
+
+            7: `<b>LITERATURE REVIEW (1.5 min)</b><br>
+                • Key point: Previous approaches (Nightcore, FaaSFlow) still use gateways as local masters<br>
+                • BriskChain: NO intermediate masters at all<br>
+                • FIGURE 2 shows FaaSFlow still has gateways on each host`,
+
+            8: `<b>METHODOLOGY OVERVIEW (1.5 min)</b><br>
+                • EXPLAIN FIGURE 4: Shows the infrastructure<br>
+                • Two components: BriskChain Runtime (in sandbox) + Embedded Controller<br>
+                • SUBSTITUTION PRINCIPLE: Workflows treated same as single functions<br>
+                • Locality strategy: All workflow sandboxes on SAME HOST`,
+
+            9: `<b>SYSTEM ARCHITECTURE (1.5 min)</b><br>
+                • EXPLAIN FIGURE 5: Shaded parts are BriskChain extensions<br>
+                • Dotted lines = direct communication between sandboxes<br>
+                • Database only accessed on ERRORS, not normal flow<br>
+                • REDIS used for fan-in scenarios (multiple inputs → one output)`,
+
+            10: `<b>WORKFLOW PROCESSING (1.5 min)</b><br>
+                • EXPLAIN FIGURE 6: Sequence diagram - trace through steps 1-10<br>
+                • KEY POINT: Steps 7, 8, 9 happen WITHOUT controller!<br>
+                • User gets activation ID token immediately<br>
+                • Controller pre-schedules using locality strategy`,
+
+            11: `<b>EXPERIMENTAL SETUP (1 min)</b><br>
+                • Google Kubernetes Engine, 3 nodes in same zone<br>
+                • OpenWhisk only supports sequential (compare for seq only)<br>
+                • Apache Composer supports all types (compare for branch/parallel)<br>
+                • Cold start NOT included in measurements; 100-1000 runs per test`,
+
+            12: `<b>REAL APPLICATIONS (1 min)</b><br>
+                • Travis2slack: 12-node CI/CD notification pipeline<br>
+                • Video transcoding: 100-second MOV→MP4<br>
+                • Why split video? OpenWhisk has 1-minute function time limit<br>
+                • Both apps contain sequential, branch, AND parallel patterns`,
+
+            13: `<b>SYNTHETIC RESULTS (2 min)</b><br>
+                • Sequential: >70% better than OpenWhisk, LINEAR growth (not exponential)<br>
+                • Branch: 0.023 seconds average = 1/3 of Composer, P95 latency 70% lower<br>
+                • KEY REASON: No controller communication between functions<br>
+                • Also: No unnecessary database access`,
+
+            14: `<b>PARALLEL & PAYLOAD RESULTS (1.5 min)</b><br>
+                • Parallel with 30 functions: BriskChain = 1/5 of Composer overhead!<br>
+                • Composer variance is MUCH higher (up to 3000ms, 50% above minimum)<br>
+                • Payload: OpenWhisk grows EXPONENTIALLY, BriskChain grows polynomially<br>
+                • At 1KB payload: BriskChain 3x better than OpenWhisk`,
+
+            15: `<b>REAL APPLICATION RESULTS (1.5 min)</b><br>
+                • Video with 5s segments: 35% better, completed in 38 seconds<br>
+                • Travis2slack: 3.5s overhead vs 11.3s for Composer (about 30%)<br>
+                • 10x payload increase: Composer drops 50%, BriskChain only 25%<br>
+                • Locality avoids 1MB+ data bottleneck between hosts`,
+
+            16: `<b>CONCLUSION (1 min)</b><br>
+                • Main contribution: Decentralized worker-side pattern<br>
+                • Why it works: No controller communication, no DB access, locality<br>
+                • Future: Decentralized auto-scaling (containers manage own lifecycle)<br>
+                • REMEMBER: Sequential>70%, Branch~67%, Parallel 50-75% improvement`,
+
+            17: `<b>REFERENCES (30 sec)</b><br>
+                • Main paper: Wang et al., IEEE Access 2024<br>
+                • Key related work: FaaSFlow (2022), Nightcore (2021)<br>
+                • Mention 1-2 key references if time permits`,
+
+            18: `<b>THANK YOU (30 sec)</b><br>
+                • Open for questions!<br>
+                • Be ready to answer: "What are the limitations?"<br>
+                  → Not tested on multi-region deployments<br>
+                  → Requires OpenWhisk platform modification<br>
+                • Be ready to answer: "Real-world adoption?"<br>
+                  → Research prototype, demonstrates concept viability`
+        };
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progress = document.getElementById('progress');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            progress.style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
+            updateNotes();
+        }
+
+        function updateNotes() {
+            const noteNum = document.getElementById('note-slide-num');
+            const notesContent = document.getElementById('notes-content');
+            noteNum.textContent = currentSlide + 1;
+            notesContent.innerHTML = speakerNotes[currentSlide + 1] || 'No notes for this slide.';
+        }
+
+        function toggleNotes() {
+            const notes = document.getElementById('speaker-notes');
+            notes.style.display = notes.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function nextSlide() { showSlide(currentSlide + 1); }
+        function prevSlide() { showSlide(currentSlide - 1); }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') nextSlide();
+            else if (e.key === 'ArrowLeft') prevSlide();
+            else if (e.key === 'Home') showSlide(0);
+            else if (e.key === 'End') showSlide(totalSlides - 1);
+            else if (e.key === 'n' || e.key === 'N') toggleNotes();
+            else if (e.key === 'f' || e.key === 'F11') {
+                if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+                else document.exitFullscreen();
+            }
+        });
+
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+        document.addEventListener('touchend', (e) => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+        });
+
+        showSlide(0);
+        updateNotes();
+    </script>
+</body>
+</html>

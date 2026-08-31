@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(unzip -p \"briskchain.docx\" word/document.xml)",
+      "Bash(unzip -p \"slide requirements.docx\" word/document.xml)"
+    ]
+  }
+}
