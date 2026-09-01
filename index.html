@@ -536,7 +536,7 @@
         <p style="margin-top: 30px; color: #888; font-size: 0.85em;">
             Original Authors: K. Wang, J. Ma, E. M.-K. Lai | Auckland University of Technology, New Zealand
         </p>
-        <div class="slide-number">1 / 18</div>
+        <div class="slide-number">1 / 19</div>
     </div>
 
     <!-- Slide 2: Content Overview -->
@@ -578,7 +578,7 @@
         <div class="highlight-box" style="margin-top: 40px; padding: 25px 30px;">
             <p style="margin: 0; font-size: 1.3em;"><strong>Core Idea:</strong> BriskChain enables serverless functions to communicate directly with each other, bypassing the central controller, resulting in significantly reduced workflow overhead.</p>
         </div>
-        <div class="slide-number">2 / 18</div>
+        <div class="slide-number">2 / 19</div>
     </div>
 
     <!-- Slide 3: Abstract -->
@@ -620,7 +620,7 @@
                 </ul>
             </div>
         </div>
-        <div class="slide-number">3 / 18</div>
+        <div class="slide-number">3 / 19</div>
     </div>
 
     <!-- Slide 4: Problem Statement -->
@@ -651,7 +651,7 @@
                 </div>
             </div>
         </div>
-        <div class="slide-number">4 / 18</div>
+        <div class="slide-number">4 / 19</div>
     </div>
 
     <!-- Slide 5: Objectives -->
@@ -690,7 +690,7 @@
                 <div class="code-block" style="background: #27ae60; font-size: 0.9em;">F1 → F2 → F3 (Direct)</div>
             </div>
         </div>
-        <div class="slide-number">5 / 18</div>
+        <div class="slide-number">5 / 19</div>
     </div>
 
     <!-- Slide 6: Introduction -->
@@ -733,7 +733,7 @@
                 </div>
             </div>
         </div>
-        <div class="slide-number">6 / 18</div>
+        <div class="slide-number">6 / 19</div>
     </div>
 
     <!-- Slide 7: Literature Review -->
@@ -791,7 +791,7 @@
             <img src="screenshots/fig2.png" alt="FaaSFlow">
             <p class="figure-caption">Figure 2: FaaSFlow architecture — still relies on gateway proxies</p>
         </div>
-        <div class="slide-number">7 / 18</div>
+        <div class="slide-number">7 / 19</div>
     </div>
 
     <!-- Slide 8: Methodology - Overview -->
@@ -830,7 +830,7 @@
                 </div>
             </div>
         </div>
-        <div class="slide-number">8 / 18</div>
+        <div class="slide-number">8 / 19</div>
     </div>
 
     <!-- Slide 9: Methodology - Architecture -->
@@ -864,7 +864,7 @@
                 </div>
             </div>
         </div>
-        <div class="slide-number">9 / 18</div>
+        <div class="slide-number">9 / 19</div>
     </div>
 
     <!-- Slide 10: Methodology - Processing -->
@@ -896,10 +896,67 @@
                 </div>
             </div>
         </div>
-        <div class="slide-number">10 / 18</div>
+        <div class="slide-number">10 / 19</div>
     </div>
 
-    <!-- Slide 11: Experimental Setup -->
+    <!-- Slide 11: Algorithm - BriskChain Runtime -->
+    <div class="slide content-slide">
+        <h2>Algorithm — BriskChain Runtime</h2>
+        <div class="two-column">
+            <div class="column-60">
+                <div style="background:#1e1e2e; border-radius:10px; padding:22px 28px; font-family:'Courier New',monospace; font-size:0.82em; line-height:1.7; color:#cdd6f4; height:100%; box-sizing:border-box;">
+                    <div style="color:#89dceb; margin-bottom:6px;"><strong>Algorithm 1</strong> BriskChain Runtime Pseudocode</div>
+                    <div><span style="color:#cba6f7;">function</span> <span style="color:#89b4fa;">runtime</span>(parameters, schema)</div>
+                    <div style="padding-left:20px;">result ← faasruntime(parameters)</div>
+                    <div style="padding-left:20px;">node ← schema.current()</div>
+                    <div style="padding-left:20px;"><span style="color:#cba6f7;">if</span> (schema.isNull() <span style="color:#cba6f7;">or</span> node.isEnd()) <span style="color:#cba6f7;">then</span></div>
+                    <div style="padding-left:40px;">response(result) <span style="color:#6c7086;">▷ task end</span></div>
+                    <div style="padding-left:20px;"><span style="color:#cba6f7;">else if</span> (sequential node) <span style="color:#cba6f7;">then</span></div>
+                    <div style="padding-left:40px;">next ← node.child()</div>
+                    <div style="padding-left:40px;">nextsandbox ← controller.resource(next)</div>
+                    <div style="padding-left:40px;">nextsandbox.msg(result, next) <span style="color:#6c7086;">▷ forward to next sandbox</span></div>
+                    <div style="padding-left:20px;"><span style="color:#cba6f7;">else if</span> (node is parallel) <span style="color:#cba6f7;">then</span></div>
+                    <div style="padding-left:40px;"><span style="color:#cba6f7;">for</span> (i in node.children()) <span style="color:#cba6f7;">do</span></div>
+                    <div style="padding-left:60px;">next ← node[i]</div>
+                    <div style="padding-left:60px;">nextsandbox ← controller.resource(next)</div>
+                    <div style="padding-left:60px;">nextsandbox.msg(result, next) <span style="color:#6c7086;">▷ forward to a sandbox</span></div>
+                    <div style="padding-left:40px;"><span style="color:#cba6f7;">end for</span></div>
+                    <div style="padding-left:20px;"><span style="color:#cba6f7;">else if</span> (node is branch) <span style="color:#cba6f7;">then</span></div>
+                    <div style="padding-left:40px;">next ← node.judge(result)</div>
+                    <div style="padding-left:40px;">nextsandbox ← controller.resource(next)</div>
+                    <div style="padding-left:40px;">nextsandbox.msg(result, next) <span style="color:#6c7086;">▷ forward to next sandbox</span></div>
+                    <div style="padding-left:20px;"><span style="color:#cba6f7;">else</span></div>
+                    <div style="padding-left:40px;">Throw an exception</div>
+                    <div style="padding-left:20px;"><span style="color:#cba6f7;">end if</span></div>
+                    <div><span style="color:#cba6f7;">end function</span></div>
+                </div>
+            </div>
+            <div class="column-40">
+                <h3>What This Demonstrates</h3>
+                <ul>
+                    <li><strong>Worker-side control</strong> — each function calls the next directly, no controller roundtrip</li>
+                    <li><strong>Schema-driven routing</strong> — the workflow graph is embedded in the sandbox; runtime reads it locally</li>
+                    <li><strong>Three node types handled uniformly:</strong>
+                        <ul style="margin-top:6px;">
+                            <li>Sequential → forward to one child</li>
+                            <li>Parallel → fan-out to all children</li>
+                            <li>Branch → evaluate result, pick path</li>
+                        </ul>
+                    </li>
+                    <li><strong>End node</strong> — result returned directly to user; no master involvement</li>
+                </ul>
+                <div class="solution-box" style="margin-top:14px;">
+                    <p style="margin:0;"><strong>Key insight:</strong> <code>controller.resource(next)</code> uses the <em>Locality Strategy</em> — the next sandbox is co-located on the same host, making the message-pass a local call.</p>
+                </div>
+                <div class="highlight-box" style="margin-top:10px; font-size:0.9em;">
+                    <strong>Complexity:</strong> O(n + m) — n sequential nodes + m parallel branches
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">11 / 19</div>
+    </div>
+
+    <!-- Slide 12: Experimental Setup -->
     <div class="slide content-slide">
         <h2>Experimental Setup</h2>
         <div class="two-column">
@@ -931,7 +988,7 @@
                 </div>
             </div>
         </div>
-        <div class="slide-number">11 / 18</div>
+        <div class="slide-number">12 / 19</div>
     </div>
 
     <!-- Slide 12: Real Application Benchmarks -->
@@ -962,7 +1019,7 @@
                 </div>
             </div>
         </div>
-        <div class="slide-number">12 / 18</div>
+        <div class="slide-number">13 / 19</div>
     </div>
 
     <!-- Slide 13: Results - Synthetic -->
@@ -992,7 +1049,7 @@
                 <p style="font-size: 0.85em; color: #666; margin-top: 8px;">P95 latency: <strong>70% lower</strong> than Composer</p>
             </div>
         </div>
-        <div class="slide-number">13 / 18</div>
+        <div class="slide-number">14 / 19</div>
     </div>
 
     <!-- Slide 14: Results - Parallel & Payload -->
@@ -1036,7 +1093,7 @@
                 <div class="label">Communication only</div>
             </div>
         </div>
-        <div class="slide-number">14 / 18</div>
+        <div class="slide-number">15 / 19</div>
     </div>
 
     <!-- Slide 15: Results - Real Applications -->
@@ -1078,7 +1135,7 @@
                 </div>
             </div>
         </div>
-        <div class="slide-number">15 / 18</div>
+        <div class="slide-number">16 / 19</div>
     </div>
 
     <!-- Slide 16: Conclusion -->
@@ -1121,7 +1178,7 @@
                 </ul>
             </div>
         </div>
-        <div class="slide-number">16 / 18</div>
+        <div class="slide-number">17 / 19</div>
     </div>
 
     <!-- Slide 17: References -->
@@ -1140,7 +1197,7 @@
                 <li>E. Jonas, J. Schleier-Smith, et al., "Cloud programming simplified: A Berkeley view on serverless computing," arXiv:1902.03383, 2019.</li>
             </ol>
         </div>
-        <div class="slide-number">17 / 18</div>
+        <div class="slide-number">18 / 19</div>
     </div>
 
     <!-- Slide 18: Thank You -->
@@ -1152,7 +1209,7 @@
             <p>BriskChain: Decentralized Function Composition for High-Performance Serverless Computing</p>
             <p style="margin-top: 10px;">K. Wang, J. Ma, E. M.-K. Lai | IEEE Access, 2024</p>
         </div>
-        <div class="slide-number">18 / 18</div>
+        <div class="slide-number">19 / 19</div>
     </div>
 
     
